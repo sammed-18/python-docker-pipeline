@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the repository
-                git 'https://github.com/your_username/python-docker-pipeline.git'
+                git 'https://github.com/sammed-18/python-docker-pipeline.git'
             }
         }
 
