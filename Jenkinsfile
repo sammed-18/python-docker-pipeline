@@ -4,6 +4,8 @@ pipeline {
     environment {
         // Set the Docker image name
         DOCKER_IMAGE = "python-docker-app"
+        DOCKER_USERNAME = "sammed18"  // Docker Hub username
+        DOCKER_PASSWORD = "#5661@Sam"  // Docker Hub password
     }
 
     stages {
@@ -26,11 +28,11 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    // Optionally push the image to Docker Hub (skip if you don't need to push)
-                    // withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    //     sh "echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin"
-                    //     sh "docker push ${DOCKER_IMAGE}:latest"
-                    // }
+                    // Login to Docker Hub
+                    sh "echo ${DOCKER_PASSWORD} | docker login --username ${DOCKER_USERNAME} --password-stdin"
+                    
+                    // Push the image to Docker Hub
+                    sh "docker push ${DOCKER_IMAGE}:latest"
                 }
             }
         }
@@ -38,7 +40,7 @@ pipeline {
 
     post {
         always {
-            cleanWs()
+            cleanWs() // Clean workspace after build
         }
     }
 }
